@@ -27,7 +27,7 @@ services:
     depends_on:
       db:
         condition: service_healthy
-    command: sh -c "flask db upgrade && flask run --host=0.0.0.0"
+    command: sh -c "if [ -d migrations ]; then flask db upgrade; else echo 'No migrations directory found, skipping flask db upgrade'; fi; flask run --host=0.0.0.0"
 
 volumes:
   postgres_data:
