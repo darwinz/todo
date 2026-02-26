@@ -19,3 +19,12 @@ docker-down:
 
 docker-logs:
     docker compose logs -f
+
+db-init:
+    FLASK_APP=app.main .venv/bin/flask db init
+
+db-migrate msg="auto":
+    FLASK_APP=app.main .venv/bin/flask db migrate -m "{{msg}}"
+
+db-upgrade:
+    FLASK_APP=app.main .venv/bin/flask db upgrade

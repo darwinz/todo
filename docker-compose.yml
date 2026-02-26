@@ -1,4 +1,18 @@
 services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: todo
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
   app:
     build: .
     ports:
@@ -9,4 +23,11 @@ services:
       FLASK_ENV: development
       FLASK_DEBUG: "1"
       FLASK_APP: app.main
-    command: flask run --host=0.0.0.0
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/todo
+    depends_on:
+      db:
+        condition: service_healthy
+    command: sh -c "if [ -d migrations ]; then flask db upgrade; else echo 'No migrations directory found, skipping flask db upgrade'; fi; flask run --host=0.0.0.0"
+
+volumes:
+  postgres_data:
