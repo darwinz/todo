@@ -20,14 +20,17 @@ docker-down:
 docker-logs:
     docker compose logs -f
 
+db-start:
+    docker compose up -d db
+
 db-init:
-    FLASK_APP=app.main .venv/bin/flask db init
+    FLASK_APP=app.main DATABASE_URL=postgresql://postgres:postgres@localhost:5432/todo .venv/bin/flask db init
 
 db-migrate msg="auto":
-    FLASK_APP=app.main .venv/bin/flask db migrate -m "{{msg}}"
+    FLASK_APP=app.main DATABASE_URL=postgresql://postgres:postgres@localhost:5432/todo .venv/bin/flask db migrate -m "{{msg}}"
 
 db-upgrade:
-    FLASK_APP=app.main .venv/bin/flask db upgrade
+    FLASK_APP=app.main DATABASE_URL=postgresql://postgres:postgres@localhost:5432/todo .venv/bin/flask db upgrade
 
 frontend-install:
     cd frontend && npm install
