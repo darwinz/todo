@@ -13,6 +13,16 @@ A full-stack task manager with a Flask-RESTful API backend and a React + Vite fr
 
 ## Quick start
 
+### First-time setup
+
+Initialize and seed the database before starting the app for the first time:
+
+```bash
+just install          # create .venv and install Python deps
+just db-init          # initialize the migrations/ directory
+just db-migrate msg="add tasks table"  # generate the initial migration
+```
+
 ### With Docker (recommended)
 
 ```bash
