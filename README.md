@@ -16,7 +16,7 @@ A full-stack task manager with a Flask-RESTful API backend and a React + Vite fr
 ### With Docker (recommended)
 
 ```bash
-docker compose up
+just docker-up
 ```
 
 - UI: http://localhost:5173
