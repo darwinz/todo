@@ -1,5 +1,6 @@
 import os
 from flask import Flask
+from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_restful import Api
@@ -21,6 +22,7 @@ def create_app(config=None):
 
     db.init_app(app)
     migrate.init_app(app, db)
+    CORS(app)
 
     # Deferred import prevents circular import (model imports db from here)
     from app.controllers.task_controller import TaskListResource, TaskResource
