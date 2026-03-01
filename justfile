@@ -28,3 +28,12 @@ db-migrate msg="auto":
 
 db-upgrade:
     FLASK_APP=app.main .venv/bin/flask db upgrade
+
+frontend-install:
+    cd frontend && npm install
+
+frontend-dev:
+    cd frontend && npm run dev
+
+frontend-build:
+    cd frontend && npm run build

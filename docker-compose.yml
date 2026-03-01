@@ -29,5 +29,19 @@ services:
         condition: service_healthy
     command: sh -c "if [ -d migrations ]; then flask db upgrade; else echo 'No migrations directory found, skipping flask db upgrade'; fi; flask run --host=0.0.0.0"
 
+  frontend:
+    image: node:20-alpine
+    working_dir: /app
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    ports:
+      - "5173:5173"
+    environment:
+      API_URL: http://app:5000
+    depends_on:
+      - app
+    command: sh -c "npm install && npm run dev -- --host"
+
 volumes:
   postgres_data:
